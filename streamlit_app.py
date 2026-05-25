@@ -3,17 +3,20 @@ import requests
 
 st.title("Arabic + English Sentiment Analyzer")
 
-text = st.text_area(
-    "Enter Arabic or English text"
-)
+api_key = st.text_input("Enter your Groq API Key", type="password")
+
+text = st.text_area("Enter Arabic or English text")
 
 if st.button("Analyze"):
-
-    response = requests.post(
-        "http://127.0.0.1:8000/analyze",
-        json={"text": text}
-    )
-
-    result = response.json()
-
-    st.write(result["result"])
+    if not api_key:
+        st.error("Please enter your Groq API key!")
+    elif not text:
+        st.error("Please enter some text!")
+    else:
+        with st.spinner("Analyzing..."):
+            response = requests.post(
+                "https://arabic-sentiment-analyzer.onrender.com/analyze",
+                json={"text": text, "api_key": api_key}
+            )
+            result = response.json()
+            st.write(result["result"])

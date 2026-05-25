@@ -1,15 +1,7 @@
 from groq import Groq
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-
-api_key = os.getenv("GROQ_API_KEY")
-
-client = Groq(api_key=api_key)
-
-
-def analyze_sentiment(text):
+def analyze_sentiment(text, api_key):
+    client = Groq(api_key=api_key)
 
     prompt = f"""
     Detect language first.
@@ -21,6 +13,7 @@ def analyze_sentiment(text):
     Sentiment:
     Confidence:
     Reason:
+    Translation (if Arabic):
 
     Text:
     {text}
